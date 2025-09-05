@@ -31,7 +31,8 @@ jobs:
     - name: list model 
       run: ls -la model
     - name: docker build
-      run: docker build -t ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}} .
+      run: docker build -t ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.event.client_payload.sha}} .
+    - name: docker login
     - name: show images
       run: docker images
     - name: docker login
@@ -40,5 +41,5 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
-    - name: docker push
-      run: docker push ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{ github.sha }}
+    - name: docker Push
+      run: docker push ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.event.client_payload.sha }}
